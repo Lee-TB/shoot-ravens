@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Point & shoot game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="lds-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div id="game-start">
+      <p>Shoot Ravens</p>
+      <div id="start-btn">
+        <span> Play </span>
+      </div>
+    </div>
+
+    <div id="game-over">
+      <p>Game Over</p>
+      <div id="restart-btn">
+        <span> Restart </span>
+      </div>
+    </div>
+
+    <canvas id="collisionCanvas"></canvas>
+    <canvas id="canvas1"></canvas>
+    <script src="script.js"></script>
+  </body>
+</html>
