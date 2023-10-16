@@ -16,6 +16,13 @@ canvas {
   right: 100%;
 }
 
+#ravenImage,
+#boomImage,
+#shootSound,
+#gameOverSound {
+  display: none;
+}
+
 #collisionCanvas {
   opacity: 0;
 }

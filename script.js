@@ -1,9 +1,4 @@
 /**@type {HTMLCanvasElement} */
-const shootSound = new Audio();
-shootSound.src = 'cg1.wav';
-const gameOverSound = new Audio();
-gameOverSound.src = 'GameOver.wav';
-
 window.addEventListener("load", () => {
   document.getElementById('preloader').style.display = 'none';
   document.getElementById('game-start').style.display = 'block';  
@@ -55,8 +50,7 @@ function startGame() {
       this.directionX = Math.random() * 5 + 3;
       this.directionY = Math.random() * 5 - 2.5;
       this.markedForDeletion = false;
-      this.image = new Image();
-      this.image.src = "raven.png";
+      this.image = ravenImage;
       this.frame = 0;
       this.maxFrame = 6;
       this.flySpeed = 0.5;
@@ -116,8 +110,7 @@ function startGame() {
   let explosions = [];
   class Explosion {
     constructor(x, y, width, height) {
-      this.image = new Image();
-      this.image.src = "boom.png";
+      this.image = boomImage;
       this.spriteWidth = 200;
       this.spriteHeight = 179;
       this.width = width;
