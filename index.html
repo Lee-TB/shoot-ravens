@@ -34,7 +34,7 @@
           <span> Play </span>
         </div>
       </div>
-  
+
       <div id="game-over">
         <p>Game Over</p>
         <div id="restart-btn">
@@ -44,12 +44,13 @@
     </div>
 
     <!-- Load Game assets -->
-    <audio id="shootSound" src="./src/assets/cg1.wav"></audio>
-    <audio id="gameOverSound" src="./src/assets/GameOver.wav"></audio>
-    <img id="ravenImage" src="./src/assets/raven.png">
-    <img id="boomImage" src="./src/assets/boom.png">
+    <div class="hidden">
+      <audio id="shootSound" src="./src/assets/cg1.wav"></audio>
+      <audio id="gameOverSound" src="./src/assets/GameOver.wav"></audio>
+      <img id="ravenImage" src="./src/assets/raven.png" />
+      <img id="boomImage" src="./src/assets/boom.png" />
+    </div>
 
-
-    <script type="module" src="script.js"></script>
+    <script type="module" src="main.js"></script>
   </body>
 </html>

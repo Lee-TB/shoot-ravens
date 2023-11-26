@@ -15,6 +15,10 @@ body {
   justify-content: center;
 }
 
+.hidden {
+  display: none;
+}
+
 #container {
   display: flex;
   position: absolute;
@@ -23,15 +27,8 @@ body {
 }
 
 canvas {
-  cursor: url(./src/assets/crosshair.png) 15 15, auto;
+  cursor: url(./src/assets/crosshair.png) 16 16, auto;
   max-width: 100%;
-}
-
-#ravenImage,
-#boomImage,
-#shootSound,
-#gameOverSound {
-  display: none;
 }
 
 #collisionCanvas {

@@ -18,10 +18,7 @@ const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = canvas.width;
 collisionCanvas.height = canvas.height;
 
-const shootSound = document.querySelector("#shootSound");
-const gameOverSound = document.querySelector("#gameOverSound");
-
-window.addEventListener("load", () => {
+window.addEventListener("load", () => {  
   document.getElementById("preloader").style.display = "none";
   document.getElementById("game-start").style.display = "block";
 });
@@ -32,13 +29,14 @@ function startGame() {
 
   let timeToNextRaven = 0;
   let ravenInterval = 500;
-  let lastTime = 0;
 
   let ravens = [];
   let explosions = [];
   let particles = [];
 
   let debug = false;
+  const shootSound = document.querySelector("#shootSound");
+  const gameOverSound = document.querySelector("#gameOverSound");
 
   window.addEventListener("keydown", (e) => {
     if (e.key.toLowerCase() === "d") {
@@ -87,7 +85,7 @@ function startGame() {
     gameOverSound.play();
   }
 
-  // shoot ravens event
+  // Shoot Ravens Event
   window.addEventListener("click", function (e) {
     if (debug) {
       ctx.beginPath();
@@ -116,10 +114,9 @@ function startGame() {
     });
   });
 
-  let gameTimer = 0;
-  let fps = 60;
-  let gameInterval = 1000 / 144;
+  let fps = 0;
   let deltaTime = 0;
+  let lastTime = 0;
 
   function animate(timestamp = 0) {
     deltaTime = timestamp - lastTime;
@@ -128,39 +125,32 @@ function startGame() {
 
     fps = 1000 / deltaTime;
 
-    gameTimer += deltaTime;
-    if (gameTimer > gameInterval) {
-      gameTimer = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      collisionCtx.clearRect(0, 0, canvas.width, canvas.height);
-
-      timeToNextRaven += deltaTime;
-      if (timeToNextRaven > ravenInterval) {
-        ravens.push(new Raven({ canvas, ctx, collisionCtx }));
-        ravens.sort(function (a, b) {
-          return a.width - b.width;
-        });
-        timeToNextRaven = 0;
-      }
-
-      drawScore();
-      drawFPS(fps.toFixed(2));
-      debugMode();
-
-      [...particles, ...ravens, ...explosions].forEach((object) => {
-        object.update(deltaTime);
-        if (object.x + object.width < 0) gameOver = true;
+    timeToNextRaven += deltaTime;
+    if (timeToNextRaven > ravenInterval) {
+      ravens.push(new Raven({ canvas, ctx, collisionCtx }));
+      ravens.sort(function (a, b) {
+        return a.width - b.width;
       });
-      [...particles, ...ravens, ...explosions].forEach((object) =>
-        object.draw({ ctx, collisionCtx })
-      );
-      ravens = ravens.filter((raven) => !raven.markedForDeletion);
-      explosions = explosions.filter(
-        (explosion) => !explosion.markedForDeletion
-      );
-      particles = particles.filter((particle) => !particle.markedForDeletion);
+      timeToNextRaven = 0;
     }
+
+    drawScore();
+    drawFPS(fps.toFixed(2));
+    debugMode();
+
+    [...particles, ...ravens, ...explosions].forEach((object) => {
+      object.update(deltaTime);
+      if (object.x + object.width < 0) gameOver = true;
+    });
+    [...particles, ...ravens, ...explosions].forEach((object) =>
+      object.draw({ ctx, collisionCtx })
+    );
+    ravens = ravens.filter((raven) => !raven.markedForDeletion);
+    explosions = explosions.filter((explosion) => !explosion.markedForDeletion);
+    particles = particles.filter((particle) => !particle.markedForDeletion);
 
     if (!gameOver) requestAnimationFrame(animate);
     else handleGameOver();
