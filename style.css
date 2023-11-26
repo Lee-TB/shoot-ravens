@@ -94,6 +94,9 @@ canvas {
   bottom: 0;
   right: 0;
   display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .preloader-inner {
@@ -109,13 +112,13 @@ canvas {
   text-transform: capitalize;
 }
 
-.lds-spinner {
-  color: official;
+.lds-spinner {  
   display: inline-block;
   position: relative;
   width: 80px;
   height: 80px;
 }
+
 .lds-spinner div {
   transform-origin: 40px 40px;
   animation: lds-spinner 1.2s linear infinite;
