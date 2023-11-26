@@ -2,39 +2,31 @@
 import { Raven } from "./src/classes/Raven.js";
 import { Explosion } from "./src/classes/Explosion.js";
 
-const canvas = document.getElementById("canvas1");
+const canvas = document.querySelector("#canvas1");
 const ctx = canvas.getContext("2d");
 
-const scale = Math.min(1280, window.innerWidth) / 1280;
-canvas.width = 1280 * scale;
-canvas.height = 720 * scale;
+const scale = Math.min(
+  Math.min(1920, window.innerWidth) / 1920,
+  Math.min(1080, window.innerHeight) / 1080
+);
+canvas.width = 1920 * scale;
+canvas.height = 1080 * scale;
+canvas.scale = scale;
 
-const collisionCanvas = document.getElementById("collisionCanvas");
+const collisionCanvas = document.querySelector("#collisionCanvas");
 const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = canvas.width;
 collisionCanvas.height = canvas.height;
+
+const shootSound = document.querySelector("#shootSound");
+const gameOverSound = document.querySelector("#gameOverSound");
 
 window.addEventListener("load", () => {
   document.getElementById("preloader").style.display = "none";
   document.getElementById("game-start").style.display = "block";
 });
 
-const startButton = document.getElementById("start-btn");
-startButton.addEventListener("click", () => {
-  document.getElementById("game-start").style.display = "none";
-  shootSound.play();
-  startGame();
-});
-
-const restartButton = document.getElementById("restart-btn");
-restartButton.addEventListener("click", () => {
-  document.getElementById("game-over").style.display = "none";
-  shootSound.play();
-  startGame();
-});
-
 function startGame() {
-  ctx.font = "50px Impact";
   let score = 0;
   let gameOver = false;
 
@@ -46,13 +38,47 @@ function startGame() {
   let explosions = [];
   let particles = [];
 
+  let debug = false;
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key.toLowerCase() === "d") {
+      debug = !debug;
+    }
+  });
+
+  function debugMode() {
+    if (debug) {
+      collisionCanvas.style.opacity = 1;
+    } else {
+      collisionCanvas.style.opacity = 0;
+    }
+  }
+
   function drawScore() {
     ctx.save();
-    ctx.font = "48px Impact";
+    ctx.font = `${48 * canvas.scale}px Impact`;
     ctx.fillStyle = "black";
-    ctx.fillText("Score " + score, 50, 70);
+    ctx.fillText("Score " + score, 50 * canvas.scale, 70 * canvas.scale);
     ctx.fillStyle = "white";
-    ctx.fillText("Score " + score, 52, 72);
+    ctx.fillText("Score " + score, 52 * canvas.scale, 72 * canvas.scale);
+    ctx.restore();
+  }
+
+  function drawFPS(fps) {
+    ctx.save();
+    ctx.font = `${16 * canvas.scale}px Consolas`;
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      `${fps} fps`,
+      canvas.width - 100 * canvas.scale,
+      20 * canvas.scale
+    );
+    ctx.fillStyle = "white";
+    ctx.fillText(
+      `${fps} fps`,
+      canvas.width - 100 * canvas.scale + 1,
+      20 * canvas.scale + 1
+    );
     ctx.restore();
   }
 
@@ -60,9 +86,16 @@ function startGame() {
     document.getElementById("game-over").style.display = "block";
     gameOverSound.play();
   }
+
   // shoot ravens event
   window.addEventListener("click", function (e) {
-    ctx.fillRect(e.offsetX, e.offsetY, 100, 100);
+    if (debug) {
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(255,0,0,0.5)";
+      ctx.arc(e.offsetX, e.offsetY, 20, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
     const detectPixelColor = collisionCtx.getImageData(
       e.offsetX,
       e.offsetY,
@@ -72,6 +105,8 @@ function startGame() {
     const pc = detectPixelColor.data;
     ravens.forEach((raven) => {
       if (raven.randomColors.toString() + ",255" === pc.toString()) {
+        shootSound.load();
+        shootSound.play();
         raven.markedForDeletion = true;
         score += 1;
         explosions.push(
@@ -82,12 +117,16 @@ function startGame() {
   });
 
   let gameTimer = 0;
-  let fps = 144;
-  let gameInterval = 1000 / fps;
+  let fps = 60;
+  let gameInterval = 1000 / 144;
+  let deltaTime = 0;
 
   function animate(timestamp = 0) {
-    let deltaTime = timestamp - lastTime;
+    deltaTime = timestamp - lastTime;
     lastTime = timestamp;
+    if (deltaTime > 100) deltaTime = 16;
+
+    fps = 1000 / deltaTime;
 
     gameTimer += deltaTime;
     if (gameTimer > gameInterval) {
@@ -106,6 +145,8 @@ function startGame() {
       }
 
       drawScore();
+      drawFPS(fps.toFixed(2));
+      debugMode();
 
       [...particles, ...ravens, ...explosions].forEach((object) => {
         object.update(deltaTime);
@@ -126,3 +167,17 @@ function startGame() {
   }
   animate();
 }
+
+const startButton = document.getElementById("start-btn");
+startButton.addEventListener("click", () => {
+  document.getElementById("game-start").style.display = "none";
+  shootSound.play();
+  startGame();
+});
+
+const restartButton = document.getElementById("restart-btn");
+restartButton.addEventListener("click", () => {
+  document.getElementById("game-over").style.display = "none";
+  shootSound.play();
+  startGame();
+});

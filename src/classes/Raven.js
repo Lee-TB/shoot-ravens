@@ -6,11 +6,11 @@ export class Raven {
     this.spriteWidth = 271;
     this.spriteHeight = 194;
     this.sizeModifier = Math.random() * 0.6 + 0.3;
-    this.width = this.spriteWidth * this.sizeModifier;
-    this.height = this.spriteHeight * this.sizeModifier;
+    this.width = this.spriteWidth * this.sizeModifier * this.canvas.scale;
+    this.height = this.spriteHeight * this.sizeModifier * this.canvas.scale;
     this.x = this.canvas.width;
     this.y = Math.random() * (this.canvas.height - this.height);
-    this.directionX = Math.random() * 5 + 3;
+    this.directionX = Math.random() * 2 + 5;
     this.directionY = Math.random() * 5 - 2.5;
     this.markedForDeletion = false;
     this.image = ravenImage;
