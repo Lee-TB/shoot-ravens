@@ -24,30 +24,32 @@
       </div>
     </div>
 
-    <div id="game-start">
-      <p>Shoot Ravens</p>
-      <div id="start-btn">
-        <span> Play </span>
+    <div id="container">
+      <canvas id="collisionCanvas"></canvas>
+      <canvas id="canvas1"></canvas>
+
+      <div id="game-start">
+        <p>Shoot Ravens</p>
+        <div id="start-btn">
+          <span> Play </span>
+        </div>
+      </div>
+  
+      <div id="game-over">
+        <p>Game Over</p>
+        <div id="restart-btn">
+          <span> Restart </span>
+        </div>
       </div>
     </div>
-
-    <div id="game-over">
-      <p>Game Over</p>
-      <div id="restart-btn">
-        <span> Restart </span>
-      </div>
-    </div>
-
-    <canvas id="collisionCanvas"></canvas>
-    <canvas id="canvas1"></canvas>
 
     <!-- Load Game assets -->
-    <audio id="shootSound" src="cg1.wav"></audio>
-    <audio id="gameOverSound" src="GameOver.wav"></audio>
-    <img id="ravenImage" src="raven.png">
-    <img id="boomImage" src="boom.png">
+    <audio id="shootSound" src="./src/assets/cg1.wav"></audio>
+    <audio id="gameOverSound" src="./src/assets/GameOver.wav"></audio>
+    <img id="ravenImage" src="./src/assets/raven.png">
+    <img id="boomImage" src="./src/assets/boom.png">
 
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>
