@@ -96,8 +96,17 @@ canvas {
   display: flex;
 }
 
-#preloader .lds-spinner {
+.preloader-inner {
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.preloader-inner span {
+  color: white;
+  font-size: 1vw;
+  text-transform: capitalize;
 }
 
 .lds-spinner {

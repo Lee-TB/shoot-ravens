@@ -45,12 +45,13 @@ export class Raven {
       this.timeSinceFlap = 0;
       for (let i = 0; i < 2; i++) {
         this.game.particles.push(
-          new Particle(
-            this.x + this.width / 2,
-            this.y + this.height / 2,
-            this.width,
-            "#4F4A45"
-          )
+          new Particle({
+            x: this.x + this.width / 2,
+            y: this.y + this.height / 2,
+            size: this.width,
+            color: "#4F4A45",
+            game: this.game,
+          })
         );
       }
     }

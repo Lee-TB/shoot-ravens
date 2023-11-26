@@ -17,11 +17,6 @@ const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = canvas.width;
 collisionCanvas.height = canvas.height;
 
-window.addEventListener("load", () => {
-  document.getElementById("preloader").style.display = "none";
-  document.getElementById("game-start").style.display = "block";
-});
-
 function startGame() {
   let game = new Game({
     canvas,
@@ -32,6 +27,7 @@ function startGame() {
 
   let deltaTime = 0;
   let lastTime = 0;
+  let animateId;
 
   function animate(timestamp = 0) {
     deltaTime = timestamp - lastTime;
@@ -40,27 +36,44 @@ function startGame() {
 
     game.render(deltaTime);
 
-    if (!game.gameOver) requestAnimationFrame(animate);
-    else handleGameOver();
+    if (game.gameOver) {
+      cancelAnimationFrame(animateId);
+      displayGameOver();
+    } else {
+      animateId = requestAnimationFrame(animate);
+    }
   }
-  animate();
+  animateId = requestAnimationFrame(animate);
 }
 
+const preloader = document.getElementById("preloader");
+const gameStartUI = document.getElementById("game-start");
+const gameOverUI = document.getElementById("game-over");
 const startButton = document.getElementById("start-btn");
-startButton.addEventListener("click", () => {
-  document.getElementById("game-start").style.display = "none";
-  shootSound.play();
-  startGame();
-});
-
 const restartButton = document.getElementById("restart-btn");
-restartButton.addEventListener("click", () => {
-  document.getElementById("game-over").style.display = "none";
+const shootSound = document.getElementById("shootSound");
+const gameOverSound = document.getElementById("gameOverSound");
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    preloader.style.display = "none";
+    gameStartUI.style.display = "block";
+  }, 1000);
+});
+
+startButton.addEventListener("click", () => {
+  gameStartUI.style.display = "none";
   shootSound.play();
   startGame();
 });
 
-function handleGameOver() {
-  document.getElementById("game-over").style.display = "block";
+restartButton.addEventListener("click", () => {
+  gameOverUI.style.display = "none";
+  shootSound.play();
+  startGame();
+});
+
+function displayGameOver() {
+  gameOverUI.style.display = "block";
   gameOverSound.play();
 }

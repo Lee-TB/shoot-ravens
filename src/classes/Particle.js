@@ -1,18 +1,27 @@
 export class Particle {
-  constructor(x, y, size, color) {
-    this.size = size;
+  constructor({ x, y, size, color, game }) {
+    this.game = game;
+    this.size = size * this.game.canvas.scale;
     this.x = x + (Math.random() * size) / 5 - size / 10;
     this.y = y + (Math.random() * size) / 5 - size / 10;
     this.radius = (Math.random() * this.size) / 100 + this.size / 100;
     this.maxRadius = Math.random() * 10 + 10;
+    this.maxRadius *= this.game.canvas.scale;
     this.markedForDeletion = false;
     this.speedX = Math.random() * 1 + 0.5;
+    this.speedX =
+      this.speedX *
+      this.game.speedRatio *
+      this.game.gameSpeed *
+      this.game.canvas.scale;
+    this.speedRadius =
+      0.1 * this.game.speedRatio * this.game.gameSpeed * this.game.canvas.scale;
     this.color = color;
   }
 
   update() {
     this.x += this.speedX;
-    this.radius += 0.1;
+    this.radius += this.speedRadius;
     if (this.radius > this.maxRadius) this.markedForDeletion = true;
   }
 
