@@ -10,6 +10,8 @@ export class Game {
 
     this.gameSpeed = 1;
     this.score = 0;
+    this.maxLives = 5;
+    this.lives = this.maxLives;
     this.gameOver = false;
 
     this.fps = 0;
@@ -24,7 +26,10 @@ export class Game {
     this.particles = [];
 
     this.shootSound = document.querySelector("#shootSound");
+    this.shootSound.volume = 0.5;
     this.gameOverSound = document.querySelector("#gameOverSound");
+    this.hitSound = document.querySelector("#hitSound");
+    this.heartImage = document.querySelector("#heartImage");
     this.debug = false;
 
     this.toggleDebug();
@@ -46,8 +51,16 @@ export class Game {
     this.ravens.forEach((raven) => {
       raven.update(deltaTime);
       raven.draw({ ctx: this.ctx, collisionCtx: this.collisionCtx });
-      if (raven.x + raven.width < 0) this.gameOver = true;
+      if (raven.x + raven.width < 0) {
+        this.lives -= 1;
+        this.hitSound.load();
+        this.hitSound.play();
+      }
     });
+
+    if (this.lives < 1) {
+      this.gameOver = true;
+    }
 
     this.explosions.forEach((explosion) => {
       explosion.update(deltaTime);
@@ -57,6 +70,7 @@ export class Game {
     this.spawnRavens(deltaTime);
 
     this.drawScore();
+    this.drawLives();
     this.drawFPS();
     this.debugMode();
     this.clearUnusedObjects();
@@ -141,6 +155,18 @@ export class Game {
       72 * this.canvas.scale
     );
     this.ctx.restore();
+  }
+
+  drawLives() {
+    for (let i = 0; i < this.lives; i++) {
+      this.ctx.drawImage(
+        heartImage,
+        50 * this.canvas.scale + i * 40,
+        90 * this.canvas.scale,
+        25 * this.canvas.scale,
+        25 * this.canvas.scale
+      );
+    }
   }
 
   drawFPS() {
