@@ -18,7 +18,8 @@ collisionCanvas.width = canvas.width;
 collisionCanvas.height = canvas.height;
 
 let game = null;
-function startGame() {
+let animateId;
+function playGame() {
   game = new Game({
     canvas,
     ctx,
@@ -28,7 +29,6 @@ function startGame() {
 
   let deltaTime = 0;
   let lastTime = 0;
-  let animateId;  
 
   function animate(timestamp = 0) {
     deltaTime = timestamp - lastTime;
@@ -49,10 +49,11 @@ function startGame() {
 }
 
 const preloader = document.getElementById("preloader");
-const gameStartUI = document.getElementById("game-start");
-const gameOverUI = document.getElementById("game-over");
-const startButton = document.getElementById("start-btn");
-const restartButton = document.getElementById("restart-btn");
+const gameStartUI = document.getElementById("gameStartUI");
+const gameOverUI = document.getElementById("gameOverUI");
+const playButton = document.getElementById("playButton");
+const playAgainButton = document.getElementById("playAgainButton");
+const restartButton = document.getElementById("restartButton");
 const shootSound = document.getElementById("shootSound");
 const gameOverSound = document.getElementById("gameOverSound");
 
@@ -63,16 +64,26 @@ window.addEventListener("load", () => {
   }, 1000);
 });
 
-startButton.addEventListener("click", () => {
+playButton.addEventListener("click", () => {
   gameStartUI.style.display = "none";
   shootSound.play();
-  startGame();
+  playGame();
+});
+
+playAgainButton.addEventListener("click", () => {
+  gameOverUI.style.display = "none";
+  shootSound.play();
+  playGame();
 });
 
 restartButton.addEventListener("click", () => {
-  gameOverUI.style.display = "none";
-  shootSound.play();
-  startGame();
+  if (window.confirm("Are you sure you want to restart game now?")) {
+    game.settingsMenu.style.display = "none";
+    game = null;
+    cancelAnimationFrame(animateId);
+    shootSound.play();
+    playGame();
+  }
 });
 
 function displayGameOver() {

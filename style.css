@@ -36,8 +36,8 @@ canvas {
   position: absolute;
 }
 
-#game-start,
-#game-over {
+#gameStartUI,
+#gameOverUI {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -48,10 +48,10 @@ canvas {
   width: 50%;
 }
 
-#game-start p,
-#start-btn,
-#game-over p,
-#restart-btn {
+#gameStartUI p,
+#playButton,
+#gameOverUI p,
+#playAgainButton {
   margin: 0;
   text-align: center;
   font-size: 2vw;
@@ -60,20 +60,20 @@ canvas {
   text-shadow: 2px 2px #000;
 }
 
-#game-start p,
-#game-over p {
+#gameStartUI p,
+#gameOverUI p {
   font-size: 4vw;
   margin-bottom: 20px;
 }
 
-#start-btn,
-#restart-btn {
+#playButton,
+#playAgainButton {
   text-align: center;
   cursor: pointer;
 }
 
-#start-btn span,
-#restart-btn span {
+#playButton span,
+#playAgainButton span {
   display: inline-block;
   border-radius: 4px;
   background-color: #956c3e;
@@ -81,8 +81,8 @@ canvas {
   user-select: none;
 }
 
-#start-btn:hover,
-#restart-btn:hover {
+#playButton:hover,
+#playAgainButton:hover {
   transform: translate(0, -2px);
   transition: all 0.15s linear;
 }
