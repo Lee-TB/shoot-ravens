@@ -87,6 +87,28 @@ canvas {
   transition: all 0.15s linear;
 }
 
+/* Pause Game Button */
+#pauseButton {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 4%;
+  right: 2%;
+  cursor: pointer;
+  display: none;  
+}
+
+@media only screen and (max-width: 768px) {
+  #pauseButton {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+#pauseButton img {
+  width: 100%;
+}
+
 /* Game Menu */
 #settingsMenu {
   position: absolute;

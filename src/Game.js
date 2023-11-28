@@ -32,6 +32,8 @@ export class Game {
     this.heartImage = document.querySelector("#heartImage");
     this.debug = false;
     this.pause = false;
+    this.pauseButton = document.querySelector("#pauseButton");
+    this.pauseButton.style.display = "block";
     this.settingsMenu = document.querySelector("#settingsMenu");
     this.continueButton = document.querySelector("#continueButton");
     this.soundInput = document.querySelector("#soundInput");
@@ -45,7 +47,8 @@ export class Game {
 
     this.toggleDebug();
     this.shootRavenEvent();
-    this.pauseGame();
+
+    this.listenPauseGame();
     this.listenContinue();
     this.listenSoundInput();
     this.listenGameSpeedInput();
@@ -211,16 +214,24 @@ export class Game {
     }
   }
 
-  pauseGame() {
+  listenPauseGame() {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         this.pause = !this.pause;
         if (this.pause) {
-          settingsMenu.style.display = "block";
+          this.settingsMenu.style.display = "block";
+          this.pauseButton.style.display = "none";
         } else {
-          settingsMenu.style.display = "none";
+          this.settingsMenu.style.display = "none";
+          this.pauseButton.style.display = "block";
         }
       }
+    });
+
+    this.pauseButton.addEventListener("click", (e) => {
+      this.pause = true;
+      this.pauseButton.style.display = "none";
+      this.settingsMenu.style.display = "block";
     });
   }
 
@@ -228,6 +239,7 @@ export class Game {
     this.continueButton.addEventListener("click", () => {
       this.pause = false;
       this.settingsMenu.style.display = "none";
+      this.pauseButton.style.display = "block";
       this.shootSound.play();
     });
   }
@@ -243,12 +255,12 @@ export class Game {
   }
 
   listenGameSpeedInput() {
-    this.gameSpeedInput.addEventListener("change", (e) => {      
+    this.gameSpeedInput.addEventListener("change", (e) => {
       this.setGameSpeed(e.target.value);
       this.gameSpeedNeedUpdate = {
         raven: true,
         particle: true,
-      }
+      };
     });
   }
 
