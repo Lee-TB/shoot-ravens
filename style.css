@@ -95,7 +95,7 @@ canvas {
   top: 4%;
   right: 2%;
   cursor: pointer;
-  display: none;  
+  display: none;
 }
 
 @media only screen and (max-width: 768px) {
@@ -159,9 +159,29 @@ input[type="range"] {
   padding: 8px;
   cursor: pointer;
 }
+
 .menu-button:hover {
   transition: all 0.2s linear;
   transform: translateY(-2px);
+}
+
+@media only screen and (max-width: 768px) {
+  .menu-button {
+    font-size: 0.6rem;
+  }
+
+  label {
+    font-size: 0.6rem;
+  }
+
+  input[type="range"] {
+    cursor: pointer;
+    width: 150px;
+  }
+
+  .menu-group label {
+    min-width: 80px;
+  }
 }
 
 /* Preloader */
