@@ -27,7 +27,7 @@ body {
 }
 
 canvas {
-  cursor: url(./src/assets/crosshair.png) 16 16, auto;
+  cursor: url(./public/assets/crosshair.png) 16 16, auto;
   max-width: 100%;
 }
 
