@@ -21,7 +21,7 @@
       <div id="game-over">
         <p>Game Over</p>
         <div id="restart-btn">
-          <span> Restart </span>
+          <span> Play again </span>
         </div>
       </div>
 
@@ -42,6 +42,25 @@
             <div></div>
           </div>
           <span>loading...</span>
+        </div>
+      </div>
+
+      <div id="settingsMenu">
+        <div class="inner">
+          <button class="menu-button" role="button" id="continueButton">
+            Continue
+          </button>
+          <button class="menu-button" role="button" id="restartButton">
+            Restart
+          </button>
+          <div class="menu-group">
+            <label for="gameSpeed">Game speed</label>
+            <input type="range" id="gameSpeed" min="5" max="15" />
+          </div>
+          <div class="menu-group">
+            <label for="soundEffectVolume">Sound volume</label>
+            <input type="range" id="soundEffectVolume" min="0" max="100" width="100" />
+          </div>
         </div>
       </div>
     </div>

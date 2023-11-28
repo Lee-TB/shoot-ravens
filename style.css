@@ -87,6 +87,62 @@ canvas {
   transition: all 0.15s linear;
 }
 
+/* Game Menu */
+#settingsMenu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(50px);
+  border: 2px solid rgba(255, 255, 255, 0.2509803922);
+  color: white;
+  border-radius: 4px;
+  user-select: none;
+  display: none;
+}
+
+#settingsMenu .inner {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.4vw;
+}
+
+label {
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px #000;
+}
+
+input[type="range"] {
+  cursor: pointer;
+  width: 200px;
+}
+
+.menu-button {
+  border: none;
+  font-size: 1.4vw;
+  background-color: #956c3e;
+  color: white;
+  text-shadow: 1px 1px #000;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+}
+.menu-button:hover {
+  transition: all 0.2s linear;
+  transform: translateY(-2px);
+}
+
+/* Preloader */
 #preloader {
   position: absolute;
   top: 0;
@@ -112,7 +168,7 @@ canvas {
   text-transform: capitalize;
 }
 
-.lds-spinner {  
+.lds-spinner {
   display: inline-block;
   position: relative;
   width: 80px;

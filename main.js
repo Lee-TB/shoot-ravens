@@ -17,8 +17,9 @@ const collisionCtx = collisionCanvas.getContext("2d");
 collisionCanvas.width = canvas.width;
 collisionCanvas.height = canvas.height;
 
+let game = null;
 function startGame() {
-  let game = new Game({
+  game = new Game({
     canvas,
     ctx,
     collisionCanvas,
@@ -27,18 +28,19 @@ function startGame() {
 
   let deltaTime = 0;
   let lastTime = 0;
-  let animateId;
+  let animateId;  
 
   function animate(timestamp = 0) {
     deltaTime = timestamp - lastTime;
     lastTime = timestamp;
     if (deltaTime > 100) deltaTime = 16;
 
-    game.render(deltaTime);
+    if (!game.pause) game.render(deltaTime);
 
     if (game.gameOver) {
       cancelAnimationFrame(animateId);
       displayGameOver();
+      game = null; // free the memory
     } else {
       animateId = requestAnimationFrame(animate);
     }

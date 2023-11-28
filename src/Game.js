@@ -26,14 +26,21 @@ export class Game {
     this.particles = [];
 
     this.shootSound = document.querySelector("#shootSound");
-    this.shootSound.volume = 0.5;
     this.gameOverSound = document.querySelector("#gameOverSound");
     this.hitSound = document.querySelector("#hitSound");
     this.heartImage = document.querySelector("#heartImage");
     this.debug = false;
+    this.pause = false;
+    this.settingsMenu = document.querySelector("#settingsMenu");
+    this.continueButton = document.querySelector("#continueButton");
+    this.soundControl = document.querySelector("#soundEffectVolume");
+    this.setSoundVolume(this.soundControl.value);
 
     this.toggleDebug();
     this.shootRavenEvent();
+    this.pauseGame();
+    this.listenContinue();
+    this.listenSoundControl();
   }
 
   render(deltaTime) {
@@ -161,7 +168,7 @@ export class Game {
     for (let i = 0; i < this.lives; i++) {
       this.ctx.drawImage(
         heartImage,
-        50 * this.canvas.scale + i * 40,
+        (50 + i * 40) * this.canvas.scale,
         90 * this.canvas.scale,
         25 * this.canvas.scale,
         25 * this.canvas.scale
@@ -194,5 +201,36 @@ export class Game {
     } else {
       this.collisionCanvas.style.opacity = 0;
     }
+  }
+
+  pauseGame() {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        this.pause = !this.pause;
+        if (this.pause) {
+          settingsMenu.style.display = "block";
+        } else {
+          settingsMenu.style.display = "none";
+        }
+      }
+    });
+  }
+
+  listenContinue() {
+    this.continueButton.addEventListener("click", () => {
+      this.pause = false;
+      this.settingsMenu.style.display = "none";
+      this.shootSound.play();
+    });
+  }
+
+  listenSoundControl() {
+    this.soundControl.addEventListener("change", (e) => {
+      this.setSoundVolume(e.target.value);
+    });
+  }
+
+  setSoundVolume(soundVolume) {
+    this.shootSound.volume = Number(soundVolume / 100);
   }
 }
