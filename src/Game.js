@@ -8,7 +8,8 @@ export class Game {
     this.collisionCanvas = collisionCanvas;
     this.collisionCtx = collisionCtx;
 
-    this.gameSpeed = 1;
+    this.baseGameSpeed = 1;
+    this.gameSpeed = this.baseGameSpeed;
     this.score = 0;
     this.maxLives = 5;
     this.lives = this.maxLives;
@@ -33,14 +34,21 @@ export class Game {
     this.pause = false;
     this.settingsMenu = document.querySelector("#settingsMenu");
     this.continueButton = document.querySelector("#continueButton");
-    this.soundControl = document.querySelector("#soundEffectVolume");
-    this.setSoundVolume(this.soundControl.value);
+    this.soundInput = document.querySelector("#soundInput");
+    this.setSoundVolume(this.soundInput.value);
+    this.gameSpeedInput = document.querySelector("#gameSpeedInput");
+    this.setGameSpeed(this.gameSpeedInput.value);
+    this.gameSpeedNeedUpdate = {
+      raven: false,
+      particle: false,
+    };
 
     this.toggleDebug();
     this.shootRavenEvent();
     this.pauseGame();
     this.listenContinue();
-    this.listenSoundControl();
+    this.listenSoundInput();
+    this.listenGameSpeedInput();
   }
 
   render(deltaTime) {
@@ -224,13 +232,27 @@ export class Game {
     });
   }
 
-  listenSoundControl() {
-    this.soundControl.addEventListener("change", (e) => {
+  listenSoundInput() {
+    this.soundInput.addEventListener("change", (e) => {
       this.setSoundVolume(e.target.value);
     });
   }
 
-  setSoundVolume(soundVolume) {
-    this.shootSound.volume = Number(soundVolume / 100);
+  setSoundVolume(value) {
+    this.shootSound.volume = Number(value / 100);
+  }
+
+  listenGameSpeedInput() {
+    this.gameSpeedInput.addEventListener("change", (e) => {      
+      this.setGameSpeed(e.target.value);
+      this.gameSpeedNeedUpdate = {
+        raven: true,
+        particle: true,
+      }
+    });
+  }
+
+  setGameSpeed(value) {
+    this.gameSpeed = this.baseGameSpeed * Number(value / 10);
   }
 }
