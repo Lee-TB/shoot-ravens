@@ -31,9 +31,6 @@ export class Raven {
   }
 
   update(deltaTime) {
-    this.updateGameSpeed();
-    
-
     this.x -= this.velocityX;
     if (this.x < 0 - this.width) this.markedForDeletion = true;
 
@@ -81,13 +78,8 @@ export class Raven {
     this.velocityY *= this.game.speedRatio;
   }
 
-  updateGameSpeed(){
-    if(this.game.gameSpeedNeedUpdate.raven) {
-      this.game.gameSpeedNeedUpdate.raven = false;
-      console.log('update ravan speed');
-      this.velocityX *= this.game.gameSpeed;
-      this.velocityY *= this.game.gameSpeed;
-    }
+  updateGameSpeed() {
+    this.velocityX *= this.game.gameSpeed / this.game.previousGameSpeed;
+    this.velocityY *= this.game.gameSpeed / this.game.previousGameSpeed;
   }
-
 }

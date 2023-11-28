@@ -9,6 +9,7 @@ export class Game {
     this.collisionCtx = collisionCtx;
 
     this.baseGameSpeed = 1;
+    this.previousGameSpeed = this.baseGameSpeed;
     this.gameSpeed = this.baseGameSpeed;
     this.score = 0;
     this.maxLives = 5;
@@ -40,10 +41,6 @@ export class Game {
     this.setSoundVolume(this.soundInput.value);
     this.gameSpeedInput = document.querySelector("#gameSpeedInput");
     this.setGameSpeed(this.gameSpeedInput.value);
-    this.gameSpeedNeedUpdate = {
-      raven: false,
-      particle: false,
-    };
 
     this.toggleDebug();
     this.shootRavenEvent();
@@ -257,14 +254,15 @@ export class Game {
   listenGameSpeedInput() {
     this.gameSpeedInput.addEventListener("change", (e) => {
       this.setGameSpeed(e.target.value);
-      this.gameSpeedNeedUpdate = {
-        raven: true,
-        particle: true,
-      };
+      this.ravens.forEach((raven) => {
+        raven.updateGameSpeed();
+      });
+      this.particles.forEach((particle) => particle.updateGameSpeed());
     });
   }
 
   setGameSpeed(value) {
+    this.previousGameSpeed = this.gameSpeed;
     this.gameSpeed = this.baseGameSpeed * Number(value / 10);
   }
 }

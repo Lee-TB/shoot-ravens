@@ -20,8 +20,6 @@ export class Particle {
   }
 
   update() {
-    this.updateGameSpeed();
-
     this.x += this.speedX;
     this.radius += this.speedRadius;
     if (this.radius > this.maxRadius) this.markedForDeletion = true;
@@ -37,12 +35,8 @@ export class Particle {
     ctx.restore();
   }
 
-  updateGameSpeed(){
-    if(this.game.gameSpeedNeedUpdate.particle) {
-      this.game.gameSpeedNeedUpdate.particle = false;
-      console.log('update particle speed');      
-      this.speedX *= this.game.gameSpeed;
-      this.speedRadius *= this.game.gameSpeed;
-    }
+  updateGameSpeed() {
+    this.speedX *= this.game.gameSpeed / this.game.previousGameSpeed;
+    this.speedRadius *= this.game.gameSpeed / this.game.previousGameSpeed;
   }
 }
